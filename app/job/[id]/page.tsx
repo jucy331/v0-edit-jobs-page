@@ -16,16 +16,26 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 
-// Mock job data - in a real app, this would come from a database
-const jobData: Record<string, any> = {
+// Job data from the main page
+type Job = {
+  title: string
+  description: string
+  fullDescription: string
+  payRange: string
+  requirements: string
+  estimatedTime: string
+  category: string
+  id?: string
+}
+
+const jobData: Record<string, Job> = {
   "survey-tester-001": {
-    title: "Product Survey Tester",
+    title: "Product Tester",
     description:
       "Share your opinions on new products and services through our detailed survey platform. Your feedback helps companies improve their offerings and marketing strategies.",
     fullDescription: `
       <h2>Job Overview</h2>
       <p>As a Product Survey Tester, you'll evaluate products, services, and concepts by completing detailed surveys. Your honest feedback helps shape the future of consumer products and services.</p>
-      
       <h2>Responsibilities</h2>
       <ul>
         <li>Complete online surveys about products, services, and consumer experiences</li>
@@ -34,7 +44,6 @@ const jobData: Record<string, any> = {
         <li>Participate in market research studies</li>
         <li>Meet deadlines for survey completion</li>
       </ul>
-      
       <h2>Requirements</h2>
       <ul>
         <li>Reliable internet connection</li>
@@ -43,7 +52,6 @@ const jobData: Record<string, any> = {
         <li>Attention to detail</li>
         <li>Honesty and integrity in providing feedback</li>
       </ul>
-      
       <h2>Payment Details</h2>
       <p>Payment varies by survey length and complexity:</p>
       <ul>
@@ -53,13 +61,13 @@ const jobData: Record<string, any> = {
         <li>Premium surveys (specialized knowledge): $26-$45</li>
       </ul>
       <p>Payments are processed within 7 days of survey completion.</p>
-      
       <h2>How to Apply</h2>
       <p>Complete the application form below. Once approved, you'll receive survey opportunities based on your demographic profile and interests.</p>
     `,
     payRange: "$2-$45 per survey",
     requirements: "Internet access, basic computer skills",
     estimatedTime: "5-30 minutes per survey",
+    category: "Surveys & Market Research",
   },
   "transcription-specialist-001": {
     title: "Audio Transcription Specialist",
@@ -67,7 +75,6 @@ const jobData: Record<string, any> = {
     fullDescription: `
       <h2>Job Overview</h2>
       <p>As an Audio Transcription Specialist, you'll convert spoken content from audio recordings into written text. This role requires excellent listening skills and attention to detail.</p>
-      
       <h2>Responsibilities</h2>
       <ul>
         <li>Transcribe audio recordings accurately and efficiently</li>
@@ -76,7 +83,6 @@ const jobData: Record<string, any> = {
         <li>Maintain confidentiality of sensitive information</li>
         <li>Perform quality checks on your work before submission</li>
       </ul>
-      
       <h2>Requirements</h2>
       <ul>
         <li>Excellent listening skills</li>
@@ -86,7 +92,6 @@ const jobData: Record<string, any> = {
         <li>Reliable internet connection</li>
         <li>Quiet work environment</li>
       </ul>
-      
       <h2>Payment Details</h2>
       <p>Payment is based on audio hour (the length of the recording):</p>
       <ul>
@@ -95,21 +100,166 @@ const jobData: Record<string, any> = {
         <li>Rush jobs may include a 20% premium</li>
       </ul>
       <p>Payments are processed weekly for all completed and approved transcriptions.</p>
-      
       <h2>How to Apply</h2>
       <p>Complete the application form below and submit a short transcription sample. Successful applicants will be invited to complete a paid test assignment.</p>
     `,
     payRange: "$15-$25 per audio hour",
     requirements: "Good listening skills, typing speed (min. 50 WPM), attention to detail",
     estimatedTime: "Varies by project",
+    category: "Transcription & Translation",
   },
-  // Add other job details here for all jobs
+  "survey-004": {
+    title: "Brand Awareness Surveyor",
+    description: "Help brands measure their reach by answering simple surveys.",
+    fullDescription: `
+      <h2>Job Overview</h2>
+      <p>As a Brand Awareness Surveyor, you'll participate in surveys to help brands understand their market reach and customer perception.</p>
+      <h2>Responsibilities</h2>
+      <ul>
+        <li>Complete online surveys about brand recognition and preferences</li>
+        <li>Provide honest and thoughtful feedback</li>
+        <li>Meet deadlines for survey completion</li>
+      </ul>
+      <h2>Requirements</h2>
+      <ul>
+        <li>Internet access</li>
+      </ul>
+      <h2>Payment Details</h2>
+      <p>Earn $2-$8 per survey, depending on length and complexity.</p>
+      <h2>How to Apply</h2>
+      <p>Sign up and start participating in surveys immediately.</p>
+    `,
+    payRange: "$2-$8 per survey",
+    requirements: "Internet access",
+    estimatedTime: "5-15 minutes per survey",
+    category: "Surveys & Market Research",
+  },
+  "survey-005": {
+    title: "Market Research Panelist",
+    description: "Join our market research panel and influence new products.",
+    fullDescription: `
+      <h2>Job Overview</h2>
+      <p>As a Market Research Panelist, you'll provide feedback on products and services to help companies improve their offerings.</p>
+      <h2>Responsibilities</h2>
+      <ul>
+        <li>Participate in online surveys and focus groups</li>
+        <li>Share your opinions on new products and concepts</li>
+        <li>Complete surveys in a timely manner</li>
+      </ul>
+      <h2>Requirements</h2>
+      <ul>
+        <li>Internet access</li>
+        <li>Basic English</li>
+      </ul>
+      <h2>Payment Details</h2>
+      <p>Earn $4-$12 per survey. Payments processed after survey completion.</p>
+      <h2>How to Apply</h2>
+      <p>Register and join our panel to start receiving survey invitations.</p>
+    `,
+    payRange: "$4-$12 per survey",
+    requirements: "Internet access, basic English",
+    estimatedTime: "10-30 minutes per survey",
+    category: "Surveys & Market Research",
+  },
+  "virtual-assistant-011": {
+    title: "Virtual Assistant",
+    description: "Assist businesses remotely with scheduling, email, and admin tasks.",
+    fullDescription: `
+      <h2>Job Overview</h2>
+      <p>As a Virtual Assistant, you'll support clients with administrative tasks, scheduling, and communication.</p>
+      <h2>Responsibilities</h2>
+      <ul>
+        <li>Manage emails and calendars</li>
+        <li>Schedule appointments and meetings</li>
+        <li>Prepare documents and reports</li>
+        <li>Perform data entry and research</li>
+      </ul>
+      <h2>Requirements</h2>
+      <ul>
+        <li>Strong organizational skills</li>
+        <li>Good written communication</li>
+        <li>Reliable internet connection</li>
+      </ul>
+      <h2>Payment Details</h2>
+      <p>$8-$15 per hour, paid weekly.</p>
+      <h2>How to Apply</h2>
+      <p>Submit your resume and a brief cover letter.</p>
+    `,
+    payRange: "$8-$15 per hour",
+    requirements: "Organizational skills, communication, internet",
+    estimatedTime: "10-40 hours/week",
+    category: "Virtual Assistance",
+  },
+  "data-entry-011": {
+    title: "Remote Data Entry Clerk",
+    description: "Enter and update data for our clients from home.",
+    fullDescription: `
+      <h2>Job Overview</h2>
+      <p>As a Data Entry Clerk, you'll input and update information in databases and spreadsheets.</p>
+      <h2>Responsibilities</h2>
+      <ul>
+        <li>Enter data accurately and efficiently</li>
+        <li>Verify and correct data as needed</li>
+        <li>Maintain confidentiality of information</li>
+      </ul>
+      <h2>Requirements</h2>
+      <ul>
+        <li>Attention to detail</li>
+        <li>Basic computer skills</li>
+        <li>Reliable internet connection</li>
+      </ul>
+      <h2>Payment Details</h2>
+      <p>$10-$14 per hour, paid biweekly.</p>
+      <h2>How to Apply</h2>
+      <p>Complete the application form and submit a typing test.</p>
+    `,
+    payRange: "$10-$14 per hour",
+    requirements: "Attention to detail, computer skills",
+    estimatedTime: "Flexible",
+    category: "Data Entry",
+  },
+  "ai-data-labeler-001": {
+    title: "AI Training Data Specialist",
+    description: "Help improve our AI systems by labeling data, reviewing content, and providing feedback.",
+    fullDescription: `
+      <h2>Job Overview</h2>
+      <p>As an AI Training Data Specialist, you'll help train and improve artificial intelligence systems by labeling data and providing human feedback.</p>
+      <h2>Responsibilities</h2>
+      <ul>
+        <li>Label images, text, or audio for AI training</li>
+        <li>Review AI-generated content for accuracy</li>
+        <li>Provide feedback on AI responses</li>
+        <li>Follow detailed guidelines for data labeling</li>
+      </ul>
+      <h2>Requirements</h2>
+      <ul>
+        <li>Attention to detail</li>
+        <li>Basic computer skills</li>
+        <li>Reliable internet connection</li>
+        <li>Ability to follow detailed instructions</li>
+      </ul>
+      <h2>Payment Details</h2>
+      <p>Payment structure:</p>
+      <ul>
+        <li>Basic labeling tasks: $10-$12 per hour</li>
+        <li>Complex labeling: $12-$15 per hour</li>
+        <li>Specialized AI feedback: $15-$18 per hour</li>
+      </ul>
+      <p>Payments are processed weekly for all completed work.</p>
+      <h2>How to Apply</h2>
+      <p>Complete the application form below. Successful applicants will receive a short training and qualification test.</p>
+    `,
+    payRange: "$10-$18 per hour",
+    requirements: "Attention to detail, basic computer skills",
+    estimatedTime: "5-20 hours per week",
+    category: "AI & Machine Learning",
+  },
 }
 
 export default function JobDetailPage() {
   const params = useParams()
   const router = useRouter()
-  const [job, setJob] = useState<any>(null)
+  const [job, setJob] = useState<Job | null>(null)
   const [isActivated, setIsActivated] = useState(false)
   const [activationDialogOpen, setActivationDialogOpen] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -137,7 +287,7 @@ export default function JobDetailPage() {
     // Store the job ID in sessionStorage so we can retrieve it when the user returns
     sessionStorage.setItem("pending_job_id", jobId)
 
-    // Redirect to PayPal payment page - ensure this executes properly
+    // Redirect to PayPal payment page
     console.log("Redirecting to PayPal payment page...")
     window.location.href = "https://www.paypal.com/ncp/payment/HX5S7CVY9BQQ2"
   }
@@ -335,7 +485,7 @@ export default function JobDetailPage() {
                       />
                     </div>
                   )}
-                  <Button type="submit" className="w-full">
+                  <Button type="submit" className="w-full bg-black hover:bg-gray-800 text-white">
                     Submit Application
                   </Button>
                 </form>
